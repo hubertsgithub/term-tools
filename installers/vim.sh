@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set +e
 
 # find term-tools directory
 if [ "$BASH_VERSION" ]; then

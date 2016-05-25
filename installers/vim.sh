@@ -59,7 +59,7 @@ if [ -f /proc/version ] && [ $(grep -c Ubuntu /proc/version) -gt 0 ]; then
 				--enable-cscope \
 				--prefix=/usr
 			make VIMRUNTIMEDIR="$VIMRUNTIMEDIR"
-			sudo checkinstall --pkgname=vim --pkgversion="$VIMVERSION" --pkgsrc="$(pwd)"
+			sudo checkinstall --pkgname=vim --pkgversion="$VIMVERSION" --pkgsource="$(pwd)"
 			cd "$P"
 
 			echo "Update alternatives"

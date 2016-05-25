@@ -1,17 +1,26 @@
 #!/bin/bash
 set -e
 
+# find term-tools directory
+if [ "$BASH_VERSION" ]; then
+	export TERM_TOOLS_DIR="$(builtin cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd)"
+elif [ "$ZSH_VERSION" ]; then
+	export TERM_TOOLS_DIR="$(builtin cd "$( dirname "${(%):-%N}" )/.." && pwd)"
+fi
+builtin cd "$TERM_TOOLS_DIR"
+
 ## tmux
 
-if command -v tmux >/dev/null 2>&1; then
-	echo "tmux: exists"
+if command -v tmux >/dev/null 2>&1 && [[ "$(tmux -V)" == "tmux 2.0" ]]; then
+	echo "tmux 2.0: exists"
 elif command -v apt-get >/dev/null 2>&1; then
 	# ubuntu
 	sudo apt-get install -y python-software-properties software-properties-common
 	sudo add-apt-repository -y ppa:pi-rho/dev
 	sudo apt-get update
-	#sudo apt-get install -y tmux xclip
-	sudo apt-get install -y tmux=1.9a-1~ppa1~t
+	#sudo apt-get install -y tmux=1.9a-1~ppa1~t
+	sudo apt-get remove -y tmux
+	sudo apt-get install -y tmux xclip
 elif command -v brew >/dev/null 2>&1; then
 	# homebrew
 	brew install tmux
@@ -19,11 +28,12 @@ elif command -v /opt/local/bin/port >/dev/null 2>&1; then
 	# macport
 	sudo port install tmux
 else
-	echo "ERROR: tmux is not installed"
+	echo "ERROR: tmux 2.0 is not installed"
 	exit 1
 fi
 
-ln $@ -sn ~/term-tools/config/tmux.conf ~/.tmux.conf
+tmux -V
+ln $@ -sn "$TERM_TOOLS_DIR/config/tmux.conf" ~/.tmux.conf
 
 ### teamocil
 #

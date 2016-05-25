@@ -67,8 +67,11 @@ done
 
 # change default shell
 # If we don't have apt-get we are on mac...
-if command -v apt-get >/dev/null 2>&1; then
+if [[ "$(uname)" == "Linux" ]]; then
 	sudo chsh $USER -s /bin/zsh
-else
+elif [[ "$(uname)" == "Darwin" ]]; then
 	sudo chsh -s /bin/zsh $USER
+else
+	echo "ERROR: Unexpected OS!"
+	exit 1
 fi

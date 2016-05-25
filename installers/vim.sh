@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-if [[ "$DESKTOP_SESSION" == "ubuntu" ]]; then
+if [[ "$(uname)" == "Linux" ]]; then
 	if command -v apt-get >/dev/null 2>&1; then
 		# install utilities
 		sudo apt-get install -y ctags ack-grep
@@ -90,6 +90,9 @@ elif [ "$(uname)" == "Darwin" ]; then
 	else
 		echo "vim: installed"
 	fi
+else
+	echo "ERROR: Unexpected OS!"
+	exit 1
 fi
 
 # Handle old dotfiles

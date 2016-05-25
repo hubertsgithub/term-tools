@@ -44,11 +44,12 @@ if [ -f /proc/version ] && [ $(grep -c Ubuntu /proc/version) -gt 0 ]; then
 			echo "Clone vim source code to vim-src/..."
 			sudo rm -rf "$TERM_TOOLS_DIR/vim-src"
 			git clone https://github.com/vim/vim.git "$TERM_TOOLS_DIR/vim-src"
-			git checkout "$VIMVERSION"
 
-			echo "Build vim from source..."
+			# Save directory so we can go back later...
 			P="$(pwd)"
+			echo "Build vim from source..."
 			cd "$TERM_TOOLS_DIR/vim-src"
+			git checkout "$VIMVERSION"
 			./configure \
 				--with-features=huge \
 				--enable-rubyinterp \

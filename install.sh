@@ -73,22 +73,6 @@ for f in $(ls -1 installers/*.sh); do
 	fi
 done
 
-#for f in ~/.zshrc ~/.bashrc; do
-	#if [[ -s $f ]]; then
-		 Choice of single/double quotes is intentional below to escape some variables but not others
-		#echo "Patching $f..."
-		#if [[ $(grep -c "source \"$TERM_TOOLS_DIR/config/shrc.sh\"" $f) == "0" ]]; then
-			#echo '' >> $f
-			#echo '# TERM-TOOLS' >> $f
-			#echo "# (patched by $TERM_TOOLS_DIR/install.sh on $(date))" >> $f
-			#echo "[[ -s \"$TERM_TOOLS_DIR/config/shrc.sh\" ]] && source \"$TERM_TOOLS_DIR/config/shrc.sh\"" >> $f
-		#fi
-		#if [[ $(grep -c 'source "$TERM_TOOLS_DIR/config/shrc-tmux.sh"' $f) == "0" ]]; then
-			#echo '# Start all new shells inside tmux (if installed).  It must be the last command in this file.' >> $f
-			#echo '[[ -s "$TERM_TOOLS_DIR/config/shrc-tmux.sh" ]] && source "$TERM_TOOLS_DIR/config/shrc-tmux.sh"' >> $f
-		#fi
-	#fi
-#done
 set +x
 echo ""
 echo " == INSTALL COMPLETE =="

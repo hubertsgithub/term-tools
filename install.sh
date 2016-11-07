@@ -2,17 +2,28 @@
 echo "$0: TERM-TOOLS INSTALLER"
 echo ""
 
-# allow for remote installation
-if [[ ! -d ~/term-tools ]]; then
-	echo "Cloning into term-tools"
-	sudo apt-get install -y git
-	git clone https://github.com/seanbell/term-tools ~/term-tools
-	cd ~/term-tools
-	./install.sh
-	exit
+if [ ! "$BASH_VERSION" ]; then
+	echo "Error: installer must be run from bash"
+	exit 1
 fi
 
-cd ~/term-tools
+# allow for remote installation
+if [ ! -t 0 ]; then
+	echo "$0 run from non-terminal -- installing in default ~/term-tools location"
+	if [[ ! -d ~/term-tools ]]; then
+		echo "Cloning into term-tools"
+		sudo apt-get install -y git
+		git clone https://github.com/kovibalu/term-tools ~/term-tools
+		cd ~/term-tools
+		bash install.sh
+		exit
+	fi
+fi
+
+# find term-tools
+export TERM_TOOLS_DIR="$(builtin cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd)"
+echo "TERM_TOOLS_DIR=$TERM_TOOLS_DIR"
+cd $TERM_TOOLS_DIR
 
 # if -f, make sure it is intended
 for f in $@; do
@@ -41,13 +52,10 @@ trap print_err ERR
 
 set -e
 
-# Load submodules
-git pull
+echo "Update submodules..."
+git pull origin master
 git submodule init
 git submodule update --init --recursive
-
-# update apt-get
-# sudo apt-get update -y
 
 # run through the installers
 for f in $(ls -1 installers/*.sh); do
@@ -64,21 +72,6 @@ for f in $(ls -1 installers/*.sh); do
 		echo "SKIPPING: $f"
 	fi
 done
-
-for f in ~/.zshrc ~/.bashrc; do
-	if [[ -s $f ]]; then
-		if [[ $(grep -c 'source ~/term-tools/config/shrc.sh' $f) == "0" ]]; then
-			echo '[[ -s ~/term-tools/config/shrc.sh ]] && source ~/term-tools/config/shrc.sh' >> $f
-		fi
-		if [[ $(grep -c 'source ~/term-tools/config/shrc-tmux.sh' $f) == "0" ]]; then
-			echo '' >> $f
-			echo '# This line starts all new shells inside tmux (if tmux is installed and set up).' >> $f
-			echo '# It must be the last command in this file.' >> $f
-			echo '[[ -s ~/term-tools/config/shrc-tmux.sh ]] && source ~/term-tools/config/shrc-tmux.sh' >> $f
-		fi
-	fi
-done
-
 
 set +x
 echo ""

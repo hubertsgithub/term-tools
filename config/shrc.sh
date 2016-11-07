@@ -1,15 +1,20 @@
 # TERMINAL CONFIG
 # source from ~/.bashrc or ~/.zshrc
 
-# directory containing these tools
-export TERM_TOOLS_DIR=~/term-tools
+# find term-tools directory
+if [ "$BASH_VERSION" ]; then
+	export TERM_TOOLS_DIR="$(builtin cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd)"
+elif [ "$ZSH_VERSION" ]; then
+	export TERM_TOOLS_DIR="$(builtin cd "$( dirname "${(%):-%N}" )/.." && pwd)"
+fi
 
 # add scripts to path
 export PATH="$PATH:$TERM_TOOLS_DIR/scripts"
 
 # store more shell history
-export HISTSIZE=1000000
-export HISTFILESIZE=1000000
+export HISTSIZE=10000000
+export SAVEHIST=10000000
+export HISTFILESIZE=10000000
 
 # if no editor is specified, assume vim
 if [ ! "$EDITOR" ]; then
@@ -51,15 +56,15 @@ alias ack='ack-grep'
 if uname | grep Darwin > /dev/null; then
 	# Mac version
 	function ls_safe {
-		~/term-tools/config/timeout3.sh -t 1 ls -G
+		$TERM_TOOLS_DIR/scripts/timeout3.sh -t 1 ls -G
 	}
 else
 	function ls_safe {
-		~/term-tools/config/timeout3.sh -t 1 ls --color=auto
+		$TERM_TOOLS_DIR/scripts/timeout3.sh -t 1 ls --color=auto
 	}
 fi
 
-# send ctrl-s to vim
+# Disable flow-control with ctrl-s
 # see http://unix.stackexchange.com/questions/12107/how-to-unfreeze-after-accidentally-pressing-ctrl-s-in-a-terminal
 stty stop undef
 stty -ixon
@@ -75,7 +80,7 @@ if [ "$ZSH_VERSION" ]; then
 	}
 
 	# terminal editor mode -- vim or emacs
-	if [[ "$TERM_EDITOR" == "vim" ]]; then
+	if [[ "$TERM_EDITOR" == "vim" ]] || [[ "$TERM_EDITOR" == "nvim" ]]; then
 		bindkey -v
 	elif [[ "$TERM_EDITOR" == "emacs" ]]; then
 		bindkey -e
@@ -97,7 +102,7 @@ fi
 if [ "$BASH_VERSION" ]; then
 
 	# terminal editor mode -- vim or emacs
-	if [[ "$TERM_EDITOR" == "vim" ]]; then
+	if [[ "$TERM_EDITOR" == "vim" ]] || [[ "$TERM_EDITOR" == "nvim" ]]; then
 		set -o vi
 	elif [[ "$TERM_EDITOR" == "emacs" ]]; then
 		set -o emacs
@@ -112,8 +117,8 @@ if [ "$BASH_VERSION" ]; then
 
 	# cdd browser: navigate with hjkl, esc: cancel, enter: use that dir
 	# (unfortunately this does not work in zsh)
-	if [ -s ~/term-tools/cdd/cdd.sh ]; then
-		alias cdd=". ~/term-tools/cdd/cdd.sh"
+	if [ -s $TERM_TOOLS_DIR/cdd/cdd.sh ]; then
+		alias cdd=". $TERM_TOOLS_DIR/cdd/cdd.sh"
 	fi
 
 	# Custom terminal: blue path and yellow git branch

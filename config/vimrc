@@ -388,7 +388,7 @@
 " FileType tabs, folding, wrapping, spelling {{{
 
 	" Enable spell-check on text-like filetypes
-	autocmd FileType txt,tex,html,rst,*.mkd,*.md set spell
+	autocmd FileType txt,tex,html,rst,markdown set spell
 
 	" Python -- whitespace sensitive
 	autocmd FileType python setlocal tabstop=4 expandtab shiftwidth=4 softtabstop=4
@@ -414,10 +414,16 @@
 	" OCaml -- whitespace sensitive
 	autocmd FileType ocaml setlocal expandtab shiftwidth=2 tabstop=2 softtabstop=2
 
+	" Markdown
+	au BufNewFile,BufRead *.markdown,*.mdown,*.mkd,*.mkdn,*.md  set filetype=markdown
+
 	" Config files
-	au BufNewFile,BufRead /etc/nginx/*   setf nginx
-	au BufNewFile,BufRead /etc/apache2/* setf apache
-	au BufNewFile,BufRead /etc/hosts     setf hostconf
+	au BufNewFile,BufRead /etc/nginx/*   set filetype=nginx
+	au BufNewFile,BufRead /etc/apache2/* set filetype=apache
+	au BufNewFile,BufRead /etc/hosts     set filetype=hostconf
+
+	" Django: template-aware html
+	au BufNewFile,BufRead *.html  set filetype=htmldjango
 
 " }}}
 
@@ -774,7 +780,7 @@
 		let g:pymode_lint_write = 0
 		let g:pymode_lint_onfly = 0
 		let g:pymode_lint_checker = "pylint,pep8,mccabe"
-		let g:pymode_lint_ignore = "R0912,W0401,W0511,W0622,W0702,W0704,E309,E501,R0914,R0911,C901,E265,E114,E116,E266,W391"
+		let g:pymode_lint_ignore = "R0912,W0401,W0511,W0622,W0702,W0704,E309,E501,R0914,R0911,C901,E265,E114,E116,E266,W391,E731"
 		let g:pymode_lint_jump = 0
 		let g:pymode_breakpoint_key = '<leader>bp'
 		let g:pymode_rope = 0

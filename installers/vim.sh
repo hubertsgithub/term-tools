@@ -1,39 +1,55 @@
 #!/bin/bash
 set -e
+set -x
 
-if [[ "$DESKTOP_SESSION" == "ubuntu" ]]; then
+# find term-tools directory
+if [ "$BASH_VERSION" ]; then
+	export TERM_TOOLS_DIR="$(builtin cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd)"
+elif [ "$ZSH_VERSION" ]; then
+	export TERM_TOOLS_DIR="$(builtin cd "$( dirname "${(%):-%N}" )/.." && pwd)"
+fi
+builtin cd "$TERM_TOOLS_DIR"
+
+if [ -f /proc/version ] && [ $(grep -c Ubuntu /proc/version) -gt 0 ]; then
 	if command -v apt-get >/dev/null 2>&1; then
 		# install utilities
 		sudo apt-get install -y ctags ack-grep
 		# header for vim startify
 		sudo apt-get install -y cowsay fortune fortunes-off fortunes-bofh-excuses
 
-		read -r -p "Install newest vim from source (recommended)? [Y/n] " response
+		# version to install
+		VIMVERSION="v7.4.1004"
+		VIMRUNTIMEDIR="/usr/share/vim/vim74"
+
+		read -r -p "Install vim $VIMVERSION from source? [Y/n] " response
 		if [ -z "$response" ] || [[ $response =~ ^[Yy]$ ]] ;  then
 
 			####
-			# BUILD NEWEST VIM FROM SOURCE
+			# BUILD NEWER VIM FROM SOURCE
 			# Based on: https://github.com/Valloric/YouCompleteMe/wiki/Building-Vim-from-source
 			# uninstall repo version
 
 			echo "Uninstall old vim..."
 			sudo apt-get remove -y vim vim-runtime vim-gnome gvim \
 				vim-tiny vim-common vim-gui-common
+			sudo dpkg -r vim
 
 			echo "Install vim prerequisites..."
 			sudo apt-get install -y \
 				libncurses5-dev libgnome2-dev libgnomeui-dev \
 				libgtk2.0-dev libatk1.0-dev libbonoboui2-dev \
 				libcairo2-dev libx11-dev libxpm-dev libxt-dev \
-				python-dev ruby-dev mercurial
+				python-dev ruby-dev mercurial checkinstall
 
-			echo "Clone newest vim source code to vim-src/..."
-			sudo rm -rf vim-src
-			hg clone https://code.google.com/p/vim/ vim-src
+			echo "Clone vim source code to vim-src/..."
+			sudo rm -rf "$TERM_TOOLS_DIR/vim-src"
+			git clone https://github.com/vim/vim.git "$TERM_TOOLS_DIR/vim-src"
 
-			echo "Build vim from source..."
+			# Save directory so we can go back later...
 			P="$(pwd)"
-			cd vim-src
+			echo "Build vim from source..."
+			cd "$TERM_TOOLS_DIR/vim-src"
+			git checkout "$VIMVERSION"
 			./configure \
 				--with-features=huge \
 				--enable-rubyinterp \
@@ -44,8 +60,8 @@ if [[ "$DESKTOP_SESSION" == "ubuntu" ]]; then
 				--enable-gui=gtk2 \
 				--enable-cscope \
 				--prefix=/usr
-			make VIMRUNTIMEDIR=/usr/share/vim/vim74
-			sudo make install
+			make VIMRUNTIMEDIR="$VIMRUNTIMEDIR"
+			sudo checkinstall --pkgname=vim --pkgversion="$VIMVERSION" --pkgsource="$(pwd)"
 			cd "$P"
 
 			echo "Update alternatives"
@@ -90,6 +106,9 @@ elif [ "$(uname)" == "Darwin" ]; then
 	else
 		echo "vim: installed"
 	fi
+else
+	echo "ERROR: Unexpected OS!"
+	exit 1
 fi
 
 # Handle old dotfiles
@@ -104,9 +123,10 @@ if [ -d ~/.vim ]; then
 fi
 
 # Install dotfiles (this will fail it already exists so we are safe)
-ln $@ -s ~/term-tools/vim ~/.vim
-ln $@ -s ~/term-tools/config/vimrc ~/.vimrc
-ln $@ -s ~/term-tools/config/gvimrc ~/.gvimrc
+ln $@ -s "$TERM_TOOLS_DIR/vim" ~/.vim
+ln $@ -s "$TERM_TOOLS_DIR/config/vimrc" ~/.vimrc
+ln $@ -s "$TERM_TOOLS_DIR/config/gvimrc" ~/.gvimrc
 
-echo "run with -f to overwrite dotfiles"
-
+if [ "$1" != "-f" ]; then
+	echo "run with -f to overwrite dotfiles"
+fi

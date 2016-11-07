@@ -79,6 +79,8 @@ if [ "$ZSH_VERSION" ]; then
 		bindkey -v
 	elif [[ "$TERM_EDITOR" == "emacs" ]]; then
 		bindkey -e
+	elif [[ "$TERM_EDITOR" == "nvim" ]]; then
+		bindkey -v
 	fi
 
 	# Better delete key and search with ctrl-R
@@ -99,6 +101,8 @@ if [ "$BASH_VERSION" ]; then
 		set -o vi
 	elif [[ "$TERM_EDITOR" == "emacs" ]]; then
 		set -o emacs
+	elif [[ "$TERM_EDITOR" == "nvim" ]]; then
+		set -o vi
 	fi
 
 	# ls after every cd

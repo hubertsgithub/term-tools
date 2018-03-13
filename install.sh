@@ -13,7 +13,7 @@ if [ ! -t 0 ]; then
 	if [[ ! -d ~/term-tools ]]; then
 		echo "Cloning into term-tools"
 		sudo apt-get install -y git
-		git clone https://github.com/kovibalu/term-tools ~/term-tools
+		git clone https://github.com/hubertsgithub/term-tools ~/term-tools
 		cd ~/term-tools
 		bash install.sh
 		exit

@@ -1,1 +1,1 @@
-/home/sbell/.vimrc
+/home/hlin/.vimrc

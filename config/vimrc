@@ -306,7 +306,8 @@
 	"    Python  -- PEP8 style
 	"    Coffee
 	autocmd FileType coffee nnoremap <leader>l <esc>:CoffeeLint\|cwindow<cr>
-	autocmd FileType python nnoremap <leader>l <esc>:retab<cr><esc>:Isort<cr><esc>:PymodeLintAuto<cr><esc>:PymodeLint<cr>
+	autocmd FileType python nnoremap <leader>l <esc>:retab<cr><esc>:PymodeLintAuto<cr><esc>:PymodeLint<cr> 
+	"<esc>:retab<cr><esc>:Isort<cr><esc>:PymodeLintAuto<cr><esc>:PymodeLint<cr>
 	autocmd FileType c,cpp,h,hpp nnoremap <leader>l <esc>:%!astyle -A2 -t<cr>
 
 	" <leader>r -- run/compile code
@@ -778,13 +779,16 @@
 		let g:pymode_options = 0
 		let g:pymode_doc = 0
 		let g:pymode_lint_on_fly = 0
-		let g:pymode_lint_checkers = ['pyflakes', 'pylint', 'pep8', 'mccabe']
-		let g:pymode_lint_ignore = "R0912,W0401,W0511,W0622,W0702,W0704,E309,E501,R0914,R0911,C901,E265,E114,E116,E266,W391,E731,C0111,F0401,W0102,E1002,C1001,W0201,W0603,W0703"
+		let g:pymode_lint_on_write = 0
+		let g:pymode_lint_checkers = ['pyflakes', 'pylint', 'pep8', 'mccabe'] "['pyflakes', 'pylint', 'pep8', 'mccabe']
+		let g:pymode_lint_ignore = "R0912,W0401,W0511,W0622,W0702,W0704,E309,E501,R0914,R0911,C901,E265,E114,E116,E266,W391,E731,C0111,F0401,W0102,E1002,C1001,W0201,W0603,W0703,C0301"
+		let g:pymode_lint_sort = ['E', 'C', 'I']
 		let g:pymode_lint_jump = 0
 		let g:pymode_breakpoint_key = '<leader>bp'
 		let g:pymode_rope = 0
+		let g:pymode_rope_guess_project = 0
 		let g:pymode_rope_completion = 0
-		let g:pymode_folding = 1
+		let g:pymode_folding = 0
 		"let g:pymode_lint_error_symbol = '✗'
 		"let g:pymode_lint_todo_symbol = '⚠'
 		"let g:pymode_lint_comment_symbol = '⚠'
@@ -803,6 +807,8 @@
 		let g:jedi#goto_assignments_command = "<cr>"
 		let g:jedi#goto_definitions_command = "<leader><cr>"
 		let g:jedi#rename_command = "<leader>rn"
+		" show function call signatures
+		"let g:jedi#show_call_signatures = "0"
 
 		" Isort
 		"   <leader>i -- sort imports (either whole file or selection)

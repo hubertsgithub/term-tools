@@ -1,3 +1,70 @@
+===========================================================
+
+# Quick and Dirty Usage Guide
+Custom Tmux and Vim config from: https://github.com/hubertsgithub/term-tools (Modified from original from Sean Bell). Complete options and keys can be found in the tmux and vim config files.
+
+1. Tmux (allows u to create different windows, tabs, within on terminal session. Also keep session active even if you disconnect)
+
+"-" means to keep holding the keys
+"," means to let go of previous keys
+
+Create new tab: Ctrl-a-n
+Close tab: Ctrl-a-c
+Switch tab (right): Ctrl-a-l
+Switch tab (left): Ctrl-a-h
+Moving tabs: ctrl-a-m
+
+Split window horizontally: Ctrl-a-s
+Split window vertically: Ctrl-a-v
+To move between windows: Ctrl-a,KEY where KEY is one of hjkl. h = left, j=down, k=up, l=right
+To resize windows: Ctrl-a-ARROW_KEY (you can press ARROW_KEY as many times as you would like)
+
+To scroll up in a window: ctrl-a-page_UP. Then let go of everything and use page-up, pagedown or arrow keys to move. Press esc to return.
+
+To DETACH from session (it continues to run): Ctrl-a-d
+To ATTACH to session: First make sure you are not already in a tmux session. Then type tmux -ls to get session id. Then use "tmux at -t SESSION_ID"
+To start new session: tmux. By default, when you log into terminal, a new session will be started.
+To exit a session completely: just exit every tmux window/tab (through ctrl-a-c or typing exit)
+
+2. VIM (text editor)
+
+All the controls are the same but there is syntax highlighting and checking. 
+
+VIM basics:
+- Normal mode: press escape. Then use h,j,k,l to move cursor.
+- Write mode: press i. Then do ur thing.
+- goto line number: normal mode -> type ":LINE_NUMBER"
+- search: normal mode -> /thing_to_search_for
+- clear search: normal mode --> :noh or //
+- replace: normal mode -> :%s/original/replaced/g
+- top of file: gg
+- bottom of file: GG
+- Copy: press v, move cursor to highlight, press y to copy.
+- Paste: p or shift p
+- paste mode (disables syntax checking and auto tabs on new lines): F2. This is useful for when ur pasting code from github or sth.
+- newline: o
+- newline above: shift o
+- highlight entire line: shift-v
+- insert on multiple lines: move cursor to front of first line. press ctrl-v. move cursor down (with j) to last line. press shift-I. type the characters u want to insert. press escape.
+- cut: c
+- delete: d
+- save: escape, :w
+- exit: escape, :q
+- exit all files and save: escape, :wqa
+- exit without saving: escape, :q!
+- exit all without saving: escape, :qa!
+
+Tons of other stuff but this is enough for now.
+
+Also comes with a ton of plugins. Most useful are:
+- ",ao" --> opens directory tree for u to browse files. Press enter on file to open in current window or press t to open in new tab
+- ",ac" --> closes directory tree for u to browse files.
+
+- "ctrl-h" or "ctrl-l" to move btween tabs. ",tc" to close tabs.
+- ",l" to check file for errors.
+
+===========================================================
+
 # TERM TOOLS
 
 This repository contains my terminal config and plugins, mostly focused around

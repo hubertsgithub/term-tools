@@ -33,14 +33,19 @@ Plug 'neomake/neomake'
 Plug 'machakann/vim-highlightedyank'
 Plug 'tmhedberg/SimpylFold'
 Plug 'kien/ctrlp.vim'
-Plug 'vim-python/python-syntax'
+Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
+Plug 'mhinz/vim-signify'
 
 call plug#end()
 
 " }}}
 
-let g:python_highlight_all = 1
+
 " General {{{
+
+	" Color scheme -- Solarized, toggle with F6
+	"set t_Co=16
+	syntax on
 
 	" Dark mode unless there is a flag file
 	" (useful for when you toggle modes often)
@@ -50,12 +55,8 @@ let g:python_highlight_all = 1
 		set background=dark
 	endif
 
-	" Color scheme -- Solarized, toggle with F6
-	set t_Co=16
-	syntax on
-	"colorscheme solarized
-	colorscheme NeoSolarized
-	"call togglebg#map("<F6>")
+	" Overwrite virtualtext color. Do this directly in neomake plugin.
+	" See notes.
 
 	" Use , instead of \ for leader key (must be defined first)
 	let mapleader=','
@@ -462,11 +463,14 @@ let g:python_highlight_all = 1
 	let g:deoplete#enable_at_startup = 1
 	"
 	" Neomake {{{
-	"call neomake#configure#automake('nrwi', 500)
+	call neomake#configure#automake('nrwi', 500)
 	"let g:neomake_python_enabled_makers = ['pylint', 'flake8']
 	let g:neomake_python_enabled_makers = ['flake8']
 	"let g:neomake_lint_ignore = "R0912,W0401,W0511,W0622,W0702,W0704,E309,E501,R0914,R0911,C901,E265,E114,E116,E266,W391,E731,C0111,F0401,W0102,E1002,C1001,W0201,W0603,W0703,C0301,CO103"
 	"
+	"
+
+
 
 	" Solarized {{{
 
@@ -819,10 +823,12 @@ let g:python_highlight_all = 1
 		let g:syntastic_python_checkers = []
 
 		"" python-mode
-		"let g:pymode_options = 0
-		"let g:pymode_doc = 0
-		"let g:pymode_lint_on_fly = 0
-		"let g:pymode_lint_on_write = 0
+
+		let g:pymode_options = 0
+		let g:pymode_doc = 0
+		let g:pymode_lint = 0
+		let g:pymode_lint_on_fly = 0
+		let g:pymode_lint_on_write = 0
 		"let g:pymode_lint_checkers = ['pyflakes', 'pylint', 'pep8', 'mccabe'] "['pyflakes', 'pylint', 'pep8', 'mccabe']
 		"let g:pymode_lint_ignore = "R0912,W0401,W0511,W0622,W0702,W0704,E309,E501,R0914,R0911,C901,E265,E114,E116,E266,W391,E731,C0111,F0401,W0102,E1002,C1001,W0201,W0603,W0703,C0301"
 		"let g:pymode_lint_sort = ['E', 'C', 'I']
@@ -831,7 +837,7 @@ let g:python_highlight_all = 1
 		"let g:pymode_rope = 0
 		"let g:pymode_rope_guess_project = 0
 		"let g:pymode_rope_completion = 0
-		"let g:pymode_folding = 0
+		let g:pymode_folding = 0
 		"let g:pymode_lint_error_symbol = '✗'
 		"let g:pymode_lint_todo_symbol = '⚠'
 		"let g:pymode_lint_comment_symbol = '⚠'
@@ -960,6 +966,9 @@ let g:python_highlight_all = 1
 	" }}}
 
 " }}}
+
+
+
 
 " MUST BE LAST: Project-specific ~/.vimrc files {{{
 

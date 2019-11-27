@@ -7,3 +7,11 @@ TL;DR:
 
 Within nvim, run: :PlugInstall.
 
+====
+
+Changing the error color of the virtualtext for neomake:
+
+/home/hlin/.local/share/nvim/plugged/neomake/autoload/neomake/virtualtext.vim:
+Add at the bottom:
+	" Hack to change the colors.
+	highlight NeomakeVirtualtextErrorDefault ctermfg=red

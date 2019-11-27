@@ -33,11 +33,13 @@ Plug 'neomake/neomake'
 Plug 'machakann/vim-highlightedyank'
 Plug 'tmhedberg/SimpylFold'
 Plug 'kien/ctrlp.vim'
+Plug 'vim-python/python-syntax'
 
 call plug#end()
 
 " }}}
 
+let g:python_highlight_all = 1
 " General {{{
 
 	" Dark mode unless there is a flag file

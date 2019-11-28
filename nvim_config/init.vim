@@ -54,6 +54,8 @@ call plug#end()
 	else
 		set background=dark
 	endif
+	
+	colorscheme NeoSolarized
 
 	" Overwrite virtualtext color. Do this directly in neomake plugin.
 	" See notes.

@@ -11,7 +11,7 @@
 	" UTF-8 encoding (default is latin1)
 	scriptencoding utf-8
 	set encoding=utf-8
-	set termencoding=utf-8
+	"set termencoding=utf-8
 
 
 " }}}

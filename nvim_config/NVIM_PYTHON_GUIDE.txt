@@ -1,11 +1,11 @@
 https://jdhao.github.io/2018/12/24/centos_nvim_install_use_guide_en/
 
 TL;DR:
-- Install pynvim
-- Install jedi / pylint / flake8
+- Install: pip install pynvim
+- Install: conda install jedi / pylint / flake8
 - Install vim-plug
 
-Within nvim, run: :PlugInstall.
+Within nvim, run: :PlugInstall and :UpdateRemotePlugins
 
 ====
 

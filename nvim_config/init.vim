@@ -24,7 +24,7 @@ call plug#begin('~/.local/share/nvim/plugged')
 Plug 'davidhalter/jedi-vim'
 Plug 'iCyMind/NeoSolarized'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'zchee/deoplete-jedi'
+Plug 'deoplete-plugins/deoplete-jedi'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'scrooloose/nerdcommenter'

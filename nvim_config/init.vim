@@ -16,6 +16,9 @@
 
 " }}}
 "
+"
+"let g:python3_host_prog = expand('/home/hubert/anaconda3/bin/python')
+
 " Plugins {{{
 "
 
@@ -286,6 +289,9 @@ call plug#end()
 	vnoremap <tab> >
 	nnoremap <s-tab> <<
 	vnoremap <s-tab> <
+
+	" Since tab / C-i is remapped, jumplist issues...
+	noremap <C-u> <C-i>
 
 	" Also indent with space
 	nnoremap <space> >>
@@ -863,6 +869,7 @@ call plug#end()
 		let g:jedi#completions_enabled = 0
 		"let g:jedi#use_splits_not_buffers = "right"
 		let g:jedi#use_tabs_not_buffers = 1
+
 		" show function call signatures
 		"let g:jedi#show_call_signatures = "0"
 

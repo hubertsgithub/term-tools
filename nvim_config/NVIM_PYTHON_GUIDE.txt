@@ -7,6 +7,10 @@ TL;DR:
 
 Within nvim, run: :PlugInstall and :UpdateRemotePlugins
 
+
+In init.vim, edit: 
+	let g:python3_host_prog = expand('/home/hubert/anaconda3/bin/python')
+
 ====
 
 Changing the error color of the virtualtext for neomake:
